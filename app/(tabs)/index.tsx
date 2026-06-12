@@ -12,7 +12,7 @@ import {styled} from "nativewind";
 import {SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import { useState } from "react";
-
+import { useUser } from "@clerk/expo";
 
 const SafeAreaView = styled(RNSafeAreaView)
 
@@ -20,7 +20,12 @@ const SafeAreaView = styled(RNSafeAreaView)
 
 
 export default function Index() {
+  const { user } = useUser();
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<string | null>(null);
+
+
+
+ const displayName = user?.firstName || user?.fullName || user?.emailAddresses[0]?.emailAddress || 'User';
   return (
     <SafeAreaView className = 'flex-1 bg-background p-5' >
      
@@ -33,7 +38,7 @@ export default function Index() {
       <View className="home-user">
         <Image  source = {images.avatar} className = "home-avatar" />
 
-        <Text className="home-user-name" >{HOME_USER.name}</Text>
+        <Text className="home-user-name" >{displayName}</Text>
       </View>
       <Image  source ={icons.add} className='home-add-icon' />
 
